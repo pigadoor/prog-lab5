@@ -1,0 +1,311 @@
+@startuml
+class com.pigadoor.client.parsers.SpaceMarineParser {
++ SpaceMarine deserialize(JsonElement,Type,JsonDeserializationContext)
+}
+class com.pigadoor.client.data.Coordinates {
+- Double x
+- Float y
++ Double getX()
++ void setX(Double)
++ Float getY()
++ void setY(Float)
++ String toString()
+}
+class com.pigadoor.client.parsers.ChapterParser {
++ Chapter deserialize(JsonElement,Type,JsonDeserializationContext)
+}
+class com.pigadoor.client.util.SpaceMarineMaker {
+- UserInputManager userInputManager
+- ChapterMaker chapterMaker
+- CoordinatesMaker coordinatesMaker
++ SpaceMarine makeSpaceMarine(CollectionStorage)
++ SpaceMarine makeSpaceMarine(Integer)
++ String getInputName()
++ float getInputHealth()
++ Long getInputHeartCount()
++ Integer getInputHeight()
++ MeleeWeapon getInputMeleeWeapon()
+}
+class com.pigadoor.client.util.SpaceMarineMaker$SpaceMarineConverter {
++ {static} String convertToName(String)
++ {static} Float convertToHealth(String)
++ {static} Integer convertToHeight(String)
++ {static} Long convertToHeartCount(String)
++ {static} MeleeWeapon convertToMeleeWeapon(String)
+}
+class com.pigadoor.client.commands.RemoveKeyCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.InsertCommand {
+- CollectionStorage collectionStorage
+- UserInputManager userInputManager
++ CommandResult execute(String)
+}
+class com.pigadoor.client.parsers.SpaceMarinesParser {
++ LinkedList<SpaceMarine> deserialize(JsonElement,Type,JsonDeserializationContext)
+}
+class com.pigadoor.client.commands.RemoveGreaterCommand {
+- CollectionStorage collectionStorage
+- UserInputManager userInputManager
++ CommandResult execute(String)
+}
+class com.pigadoor.client.util.ChapterMaker {
+- UserInputManager userInputManager
++ Chapter makeChapter()
+- String getInputParentLegion()
+- String getInputName()
+}
+class com.pigadoor.client.util.ChapterMaker$PersonConverter {
++ {static} String convertToName(String)
++ {static} String convertToParentLegion(String)
+}
+class com.pigadoor.client.CollectionStorage {
+- TreeMap<Integer,SpaceMarine> treemap
+- java.time.LocalDate creationDate
++ int getMaxId()
++ LocalDate getCreationDate()
++ TreeMap<Integer,SpaceMarine> getTreeMap()
++ void initializeTreeMap(TreeMap<Integer,SpaceMarine>)
++ void clear()
++ void remove(Integer)
++ void add(Integer,SpaceMarine)
++ void replace(Integer,SpaceMarine)
++ SpaceMarine getSpaceMarine(Integer)
++ Set<Integer> getKeysSet()
++ Set<Integer> getDescendingKeysSet()
++ boolean containsKey(Integer)
++ Integer getMatchingKey(Integer)
++ void removeGreaterSpaceMarine(SpaceMarine)
++ void removeLowerKey(Integer)
++ Integer countLessThanHeight(Float)
++ List<SpaceMarine> getMatchingHealth(int)
++ NavigableMap<Integer,SpaceMarine> getDescending()
+}
+class com.pigadoor.client.parsers.LocalDateTimeSerializer {
++ LocalDateTime deserialize(JsonElement,Type,JsonDeserializationContext)
+}
+class com.pigadoor.client.CommandStore {
+- HashSet<Command> commands
++ HashSet<Command> getCommands()
+}
+class com.pigadoor.client.util.FileManager {
++ {static} String FILE_PATH
++ {static} String read(String)
++ {static} void write(String,String)
+}
+class com.pigadoor.client.commands.RemoveLowerKeyCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+enum com.pigadoor.client.data.MeleeWeapon {
++  CHAIN_SWORD
++  POWER_SWORD
++  MANREAPER
++  LIGHTING_CLAW
++  POWER_FIST
+}
+class com.pigadoor.client.commands.ExitCommand {
++ CommandResult execute(String)
+}
+class com.pigadoor.client.CommandInvoker {
+- CommandStore commandStore
++ CommandResult runCommand(String,String)
+}
+class com.pigadoor.client.Client {
++ {static} void main(String[])
+}
+class com.pigadoor.client.commands.InfoCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.FilterGreaterThanHealthCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.SaveCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.PrintDescendingCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.data.Chapter {
+- String name
+- String parentLegion
++ String getName()
++ void setName(String)
++ String getParentLegion()
++ void setParentLegion(String)
++ String toString()
+}
+class com.pigadoor.client.util.JsonParser {
+- {static} Gson gson
++ {static} List<T> stringToArray(String,Class<T[]>)
++ {static} TreeMap<Integer,SpaceMarine> deserialize(String)
+- {static} boolean validateSpaceMarine(SpaceMarine)
++ {static} String serialize(TreeMap<Integer,SpaceMarine>)
+}
+class com.pigadoor.client.Logger {
+- {static} int capacity
+- {static} int numb
+- {static} List<String> history
++ {static} void log(String)
++ {static} void removeLast()
++ {static} List<String> getAll()
++ {static} void setCapacity(int)
+}
+class com.pigadoor.client.data.SpaceMarineWrapper {
+- int id
+- String name
+- Coordinates coordinates
+- String creationDate
+- float health
+- Long heartCount
+- float height
+- MeleeWeapon meleeWeapon
+- Chapter chapter
++ String toString()
++ Integer getId()
++ String getName()
++ float getHealth()
++ long getHeartCount()
++ float getHeight()
++ MeleeWeapon getMeleeWeapon()
++ Chapter getChapter()
++ void setId(int)
++ void setName(String)
++ void setCoordinates(Coordinates)
++ void setCreationDate(String)
++ void setHealth(float)
++ void setHeartCount(Long)
++ void setHeight(float)
++ void setMeleeWeapon(MeleeWeapon)
++ void setChapter(Chapter)
++ Coordinates getCoordinates()
++ String getCreationDate()
+}
+abstract class com.pigadoor.client.commands.Command {
+- String name
++ String getName()
++ {abstract}CommandResult execute(String)
+}
+class com.pigadoor.client.FileReadPermissionException {
+}
+class com.pigadoor.client.commands.HistoryCommand {
++ CommandResult execute(String)
+}
+class com.pigadoor.client.UserInputManager {
+- ArrayDeque<ArrayDeque<String>> allScripts
+- ArrayDeque<String> filePaths
+- Scanner scanner
++ String readLine()
++ void connectToFile(String)
+}
+class com.pigadoor.client.parsers.CoordinatesParser {
++ Coordinates deserialize(JsonElement,Type,JsonDeserializationContext)
+}
+class com.pigadoor.client.commands.CountLessThanHeightCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.ClearCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.UpdateCommand {
+- CollectionStorage collectionStorage
+- UserInputManager userInputManager
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.CommandResult {
+- String message
+- boolean exit
++ String getMessage()
++ boolean isExit()
+}
+class com.pigadoor.client.util.CoordinatesMaker {
+- UserInputManager userInputManager
++ Coordinates makeCoordinates()
++ Double getInputX()
++ Float getInputY()
+}
+class com.pigadoor.client.util.CoordinatesMaker$CoordinatesConverter {
++ {static} Double convertX(String)
++ {static} Float convertY(String)
+}
+class com.pigadoor.client.commands.ExecuteScriptCommand {
+- UserInputManager userInputManager
++ CommandResult execute(String)
+}
+class com.pigadoor.client.commands.ShowCommand {
+- CollectionStorage collectionStorage
++ CommandResult execute(String)
+}
+class com.pigadoor.client.data.SpaceMarine {
+- int id
+- String name
+- Coordinates coordinates
+- java.time.LocalDateTime creationDate
+- float health
+- Long heartCount
+- float height
+- MeleeWeapon meleeWeapon
+- Chapter chapter
++ String toString()
++ void setId(int)
++ void setName(String)
++ void setCoordinates(Coordinates)
++ void setCreationDate(LocalDateTime)
++ void setHealth(float)
++ void setHeartCount(Long)
++ void setHeight(float)
++ void setMeleeWeapon(MeleeWeapon)
++ void setChapter(Chapter)
++ Integer getId()
++ String getName()
++ float getHealth()
++ Long getHeartCount()
++ float getHeight()
++ MeleeWeapon getMeleeWeapon()
++ Chapter getChapter()
++ Coordinates getCoordinates()
++ LocalDateTime getCreationDate()
++ boolean equals(Object)
++ int hashCode()
++ int compareTo(SpaceMarine)
++ int compareTo(Float)
+}
+class com.pigadoor.client.commands.HelpCommand {
++ CommandResult execute(String)
+}
+
+
+com.google.gson.JsonDeserializer <|.. com.pigadoor.client.parsers.SpaceMarineParser
+com.google.gson.JsonDeserializer <|.. com.pigadoor.client.parsers.ChapterParser
+com.pigadoor.client.util.SpaceMarineMaker +.. com.pigadoor.client.util.SpaceMarineMaker$SpaceMarineConverter
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.RemoveKeyCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.InsertCommand
+com.google.gson.JsonDeserializer <|.. com.pigadoor.client.parsers.SpaceMarinesParser
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.RemoveGreaterCommand
+com.pigadoor.client.util.ChapterMaker +.. com.pigadoor.client.util.ChapterMaker$PersonConverter
+com.google.gson.JsonDeserializer <|.. com.pigadoor.client.parsers.LocalDateTimeSerializer
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.RemoveLowerKeyCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.ExitCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.InfoCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.FilterGreaterThanHealthCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.SaveCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.PrintDescendingCommand
+com.pigadoor.client.RuntimeException <|-- com.pigadoor.client.FileReadPermissionException
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.HistoryCommand
+com.google.gson.JsonDeserializer <|.. com.pigadoor.client.parsers.CoordinatesParser
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.CountLessThanHeightCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.ClearCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.UpdateCommand
+com.pigadoor.client.util.CoordinatesMaker +.. com.pigadoor.client.util.CoordinatesMaker$CoordinatesConverter
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.ExecuteScriptCommand
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.ShowCommand
+com.pigadoor.client.data.Comparable <|.. com.pigadoor.client.data.SpaceMarine
+com.pigadoor.client.commands.Command <|-- com.pigadoor.client.commands.HelpCommand
+@enduml
