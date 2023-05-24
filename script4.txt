@@ -1,0 +1,10 @@
+insert 3
+from_script
+1
+2
+1
+1
+1
+CHAIN_SWORD
+qwer
+qwert
