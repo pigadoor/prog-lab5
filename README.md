@@ -1,2 +1,2 @@
-# lab5
-itmo-lab5
+# prog-lab5
+![](lab5.svg)
